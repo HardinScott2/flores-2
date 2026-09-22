@@ -3,103 +3,160 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flores Amarillas 💛</title>
+  <title>Flor Amarilla 3D 💛</title>
   <style>
     body {
       margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #1a1a1a;
       overflow: hidden;
+      background: radial-gradient(circle, #1a1a2e 0%, #0f0f1a 100%);
       font-family: Arial, sans-serif;
     }
-
-    .container {
+    #title {
+      position: absolute;
+      top: 20px;
+      width: 100%;
       text-align: center;
-    }
-
-    h1 {
       color: #ffd700;
-      margin-bottom: 30px;
-      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-    }
-
-    .flower {
-      position: relative;
-      width: 120px;
-      height: 120px;
-      margin: 0 auto;
-    }
-
-    .center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 40px;
-      height: 40px;
-      background: #8b4513;
-      border-radius: 50%;
+      font-size: 2rem;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+      pointer-events: none;
       z-index: 10;
-      box-shadow: inset 0 0 5px #000;
     }
-
-    .petal {
+    #instructions {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 25px;
-      height: 60px;
-      background: #ffd700;
-      border-radius: 50% 50% 10% 10%;
-      transform-origin: center bottom;
-      box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
-    }
-
-    /* Posición de los pétalos */
-    .p1  { transform: translate(-50%, -100%) rotate(0deg); }
-    .p2  { transform: translate(-50%, -100%) rotate(30deg); }
-    .p3  { transform: translate(-50%, -100%) rotate(60deg); }
-    .p4  { transform: translate(-50%, -100%) rotate(90deg); }
-    .p5  { transform: translate(-50%, -100%) rotate(120deg); }
-    .p6  { transform: translate(-50%, -100%) rotate(150deg); }
-    .p7  { transform: translate(-50%, -100%) rotate(180deg); }
-    .p8  { transform: translate(-50%, -100%) rotate(210deg); }
-    .p9  { transform: translate(-50%, -100%) rotate(240deg); }
-    .p10 { transform: translate(-50%, -100%) rotate(270deg); }
-    .p11 { transform: translate(-50%, -100%) rotate(300deg); }
-    .p12 { transform: translate(-50%, -100%) rotate(330deg); }
-
-    .stem {
-      width: 8px;
-      height: 120px;
-      background: #2e8b57;
-      margin: 0 auto;
-      border-radius: 0 0 5px 5px;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      color: #aaaaaa;
+      font-size: 0.9rem;
+      pointer-events: none;
+      z-index: 10;
     }
   </style>
+  <!-- Cargamos Three.js y OrbitControls desde CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Flores Amarillas para ti 🌼</h1>
-    <div class="flower">
-      <div class="center"></div>
-      <div class="petal p1"></div>
-      <div class="petal p2"></div>
-      <div class="petal p3"></div>
-      <div class="petal p4"></div>
-      <div class="petal p5"></div>
-      <div class="petal p6"></div>
-      <div class="petal p7"></div>
-      <div class="petal p8"></div>
-      <div class="petal p9"></div>
-      <div class="petal p10"></div>
-      <div class="petal p11"></div>
-      <div class="petal p12"></div>
-    </div>
-    <div class="stem"></div>
-  </div>
+
+  <div id="title">Flores Amarillas 3D 🌼</div>
+  <div id="instructions">Mantén presionado y arrastra para girar | Usa la rueda para acercar</div>
+
+  <script>
+    // Escena, Cámara y Renderizador
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 3, 10);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    document.body.appendChild(renderer.domElement);
+
+    // Controles para rotar la cámara con el mouse/touch
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+
+    // Luces
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    dirLight.position.set(5, 10, 7);
+    dirLight.castShadow = true;
+    scene.add(dirLight);
+
+    const pointLight = new THREE.PointLight(0xffd700, 1, 10);
+    pointLight.position.set(0, 2, 2);
+    scene.add(pointLight);
+
+    // Grupo de la flor completa
+    const flowerGroup = new THREE.Group();
+
+    // 1. Centro de la flor (Marrón suave)
+    const centerGeo = new THREE.SphereGeometry(0.8, 32, 16);
+    centerGeo.scale(1, 0.5, 1);
+    const centerMat = new THREE.MeshStandardMaterial({ color: 0x5c3a21, roughness: 0.8 });
+    const centerMesh = new THREE.Mesh(centerGeo, centerMat);
+    flowerGroup.add(centerMesh);
+
+    // 2. Pétalos Amarillos
+    const petalCount = 16;
+    const petalShape = new THREE.Shape();
+    petalShape.moveTo(0, 0);
+    petalShape.quadraticCurveTo(0.4, 1.2, 0, 2.5);
+    petalShape.quadraticCurveTo(-0.4, 1.2, 0, 0);
+
+    const extrudeSettings = { depth: 0.05, bevelEnabled: true, bevelSegments: 3, steps: 1, bevelSize: 0.02, bevelThickness: 0.02 };
+    const petalGeo = new THREE.ExtrudeGeometry(petalShape, extrudeSettings);
+    const petalMat = new THREE.MeshStandardMaterial({ color: 0xffd700, metalness: 0.1, roughness: 0.3 });
+
+    for (let i = 0; i < petalCount; i++) {
+      const angle = (i / petalCount) * Math.PI * 2;
+      const petalMesh = new THREE.Mesh(petalGeo, petalMat);
+      
+      const petalHolder = new THREE.Group();
+      petalHolder.rotation.y = angle;
+      
+      petalMesh.position.set(0, 0.2, 0.6);
+      petalMesh.rotation.x = Math.PI / 2 - 0.2; // Ligera inclinación
+      
+      petalHolder.add(petalMesh);
+      flowerGroup.add(petalHolder);
+    }
+
+    // 3. Tallo verde
+    const stemCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, -2, 0),
+      new THREE.Vector3(0.2, -4, 0.1),
+      new THREE.Vector3(0, -6, 0)
+    ]);
+    const stemGeo = new THREE.TubeGeometry(stemCurve, 20, 0.15, 16, false);
+    const stemMat = new THREE.MeshStandardMaterial({ color: 0x2e8b57, roughness: 0.5 });
+    const stemMesh = new THREE.Mesh(stemGeo, stemMat);
+    flowerGroup.add(stemMesh);
+
+    // 4. Hojas
+    const leafGeo = new THREE.ExtrudeGeometry(petalShape, { depth: 0.03, bevelEnabled: true, bevelSize: 0.01 });
+    const leafMat = new THREE.MeshStandardMaterial({ color: 0x228b22, roughness: 0.4 });
+    
+    const leaf1 = new THREE.Mesh(leafGeo, leafMat);
+    leaf1.position.set(0, -2.5, 0);
+    leaf1.rotation.set(1.2, 0, -1);
+    leaf1.scale.set(0.8, 0.8, 0.8);
+    flowerGroup.add(leaf1);
+
+    const leaf2 = new THREE.Mesh(leafGeo, leafMat);
+    leaf2.position.set(0, -3.8, 0);
+    leaf2.rotation.set(1.2, 0, 2);
+    leaf2.scale.set(0.8, 0.8, 0.8);
+    flowerGroup.add(leaf2);
+
+    flowerGroup.position.y = 1;
+    scene.add(flowerGroup);
+
+    // Ajustar pantalla al redimensionar la ventana
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Bucle de Animación
+    function animate() {
+      requestAnimationFrame(animate);
+      
+      // Suave rotación continua
+      flowerGroup.rotation.y += 0.005;
+      
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
 </body>
 </html>
