@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flores Amarillas 💛</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #1a1a1a;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    h1 {
+      color: #ffd700;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    .flower {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+    }
+
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      background: #8b4513;
+      border-radius: 50%;
+      z-index: 10;
+      box-shadow: inset 0 0 5px #000;
+    }
+
+    .petal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 25px;
+      height: 60px;
+      background: #ffd700;
+      border-radius: 50% 50% 10% 10%;
+      transform-origin: center bottom;
+      box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    }
+
+    /* Posición de los pétalos */
+    .p1  { transform: translate(-50%, -100%) rotate(0deg); }
+    .p2  { transform: translate(-50%, -100%) rotate(30deg); }
+    .p3  { transform: translate(-50%, -100%) rotate(60deg); }
+    .p4  { transform: translate(-50%, -100%) rotate(90deg); }
+    .p5  { transform: translate(-50%, -100%) rotate(120deg); }
+    .p6  { transform: translate(-50%, -100%) rotate(150deg); }
+    .p7  { transform: translate(-50%, -100%) rotate(180deg); }
+    .p8  { transform: translate(-50%, -100%) rotate(210deg); }
+    .p9  { transform: translate(-50%, -100%) rotate(240deg); }
+    .p10 { transform: translate(-50%, -100%) rotate(270deg); }
+    .p11 { transform: translate(-50%, -100%) rotate(300deg); }
+    .p12 { transform: translate(-50%, -100%) rotate(330deg); }
+
+    .stem {
+      width: 8px;
+      height: 120px;
+      background: #2e8b57;
+      margin: 0 auto;
+      border-radius: 0 0 5px 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Flores Amarillas para ti 🌼</h1>
+    <div class="flower">
+      <div class="center"></div>
+      <div class="petal p1"></div>
+      <div class="petal p2"></div>
+      <div class="petal p3"></div>
+      <div class="petal p4"></div>
+      <div class="petal p5"></div>
+      <div class="petal p6"></div>
+      <div class="petal p7"></div>
+      <div class="petal p8"></div>
+      <div class="petal p9"></div>
+      <div class="petal p10"></div>
+      <div class="petal p11"></div>
+      <div class="petal p12"></div>
+    </div>
+    <div class="stem"></div>
+  </div>
+</body>
+</html>
